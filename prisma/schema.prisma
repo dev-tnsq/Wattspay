@@ -68,7 +68,8 @@ model Contact {
 model Transaction {
   id                String             @id @default(cuid())
   senderWalletId    String
-  recipientWalletId String
+  recipientWalletId String?
+  recipientAddress  String?            // For external addresses not in our system
   amountOctas       Decimal            @db.Decimal(40, 0)
   status            TransactionStatus  @default(PENDING)
   aptosHash         String?
@@ -79,7 +80,7 @@ model Transaction {
   groupSessionId    String?
 
   sender            Wallet             @relation("walletSender", fields: [senderWalletId], references: [id])
-  recipient         Wallet             @relation("walletRecipient", fields: [recipientWalletId], references: [id])
+  recipient         Wallet?            @relation("walletRecipient", fields: [recipientWalletId], references: [id])
   groupSession      GroupSession?      @relation(fields: [groupSessionId], references: [id])
 }
 
