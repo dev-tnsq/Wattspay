@@ -21,3 +21,21 @@ export {
   type PaymentRequest,
   type PaymentResult,
 } from './paymentService';
+
+// Group Payment Service exports
+export {
+  createGroupPayment,
+  executeGroupPayment,
+  getGroupPaymentSession,
+  addGroupExpense,
+  getGroupDebtBalances,
+  calculateOptimalSettlement,
+  executeOptimalSettlement,
+  type GroupPaymentRequest,
+  type GroupPaymentResult,
+  type GroupTransactionResult,
+  type GroupDebtBalance,
+  type GroupExpense,
+  type NetSettlementTransaction,
+  type GroupTreasuryConfig,
+} from './groupPaymentService';

@@ -96,6 +96,7 @@ model GroupSession {
   creator      User                      @relation("userCreatedSessions", fields: [creatorId], references: [id])
   transactions Transaction[]
   participants GroupSessionParticipant[]
+  expenses     GroupExpense[]            @relation("GroupExpenses")
 }
 
 model GroupSessionParticipant {
@@ -110,6 +111,20 @@ model GroupSessionParticipant {
   user      User                 @relation(fields: [userId], references: [id])
 
   @@unique([sessionId, userId])
+}
+
+model GroupExpense {
+  id               String   @id @default(cuid())
+  groupSessionId   String
+  description      String
+  amount           String   // Store as string to handle precise decimals
+  paidByPhone      String
+  splitAmongPhones String   // JSON array of phone numbers
+  settled          Boolean  @default(false)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  groupSession     GroupSession @relation("GroupExpenses", fields: [groupSessionId], references: [id])
 }
 
 enum TransactionStatus {
