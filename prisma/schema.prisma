@@ -1,0 +1,131 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                   String                    @id @default(cuid())
+  whatsappId           String                    @unique
+  phoneNumber          String                    @unique
+  displayName          String?
+  onboardingCompletedAt DateTime?
+  createdAt            DateTime                  @default(now())
+  updatedAt            DateTime                  @updatedAt
+
+  wallets              Wallet[]
+  contacts             Contact[]
+  groupParticipants    GroupSessionParticipant[]
+  createdSessions      GroupSession[]          @relation("userCreatedSessions")
+
+  @@index([whatsappId])
+}
+
+model Wallet {
+  id                  String         @id @default(cuid())
+  userId              String
+  address             String         @unique
+  publicKey           String
+  encryptedPrivateKey String
+  encryptionIv        String
+  encryptionAuthTag   String
+  mnemonicBackupSentAt DateTime?
+  createdAt           DateTime       @default(now())
+  updatedAt           DateTime       @updatedAt
+
+  user                User           @relation(fields: [userId], references: [id])
+  sentTransactions    Transaction[]  @relation("walletSender")
+  receivedTransactions Transaction[] @relation("walletRecipient")
+  contacts            Contact[]      @relation("contactWallet")
+}
+
+model Contact {
+  id          String   @id @default(cuid())
+  ownerId     String
+  whatsappId  String?
+  phoneNumber String
+  displayName String?
+  walletId    String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  owner       User     @relation(fields: [ownerId], references: [id])
+  wallet      Wallet?  @relation("contactWallet", fields: [walletId], references: [id])
+
+  @@unique([ownerId, phoneNumber])
+  @@index([whatsappId])
+}
+
+model Transaction {
+  id                String             @id @default(cuid())
+  senderWalletId    String
+  recipientWalletId String
+  amountOctas       Decimal            @db.Decimal(40, 0)
+  status            TransactionStatus  @default(PENDING)
+  aptosHash         String?
+  metadata          Json?
+  confirmedAt       DateTime?
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  groupSessionId    String?
+
+  sender            Wallet             @relation("walletSender", fields: [senderWalletId], references: [id])
+  recipient         Wallet             @relation("walletRecipient", fields: [recipientWalletId], references: [id])
+  groupSession      GroupSession?      @relation(fields: [groupSessionId], references: [id])
+}
+
+model GroupSession {
+  id           String                    @id @default(cuid())
+  creatorId    String
+  topic        String?
+  status       GroupSessionStatus        @default(ACTIVE)
+  expiresAt    DateTime?
+  createdAt    DateTime                  @default(now())
+  updatedAt    DateTime                  @updatedAt
+
+  creator      User                      @relation("userCreatedSessions", fields: [creatorId], references: [id])
+  transactions Transaction[]
+  participants GroupSessionParticipant[]
+}
+
+model GroupSessionParticipant {
+  id        String               @id @default(cuid())
+  sessionId String
+  userId    String
+  role      GroupParticipantRole @default(MEMBER)
+  joinedAt  DateTime             @default(now())
+  leftAt    DateTime?
+
+  session   GroupSession         @relation(fields: [sessionId], references: [id])
+  user      User                 @relation(fields: [userId], references: [id])
+
+  @@unique([sessionId, userId])
+}
+
+enum TransactionStatus {
+  PENDING
+  CONFIRMED
+  FAILED
+  CANCELLED
+}
+
+enum GroupSessionStatus {
+  ACTIVE
+  LOCKED
+  SETTLED
+  REFUNDED
+}
+
+enum GroupParticipantRole {
+  MEMBER
+  ADMIN
+}

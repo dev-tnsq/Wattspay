@@ -1,0 +1,12 @@
+node_modules
+dist
+coverage
+# Keep environment variables out of version control
+.env
+.env.*
+
+/generated/prisma
+/prisma/dev.db
+.DS_Store
+.idea
+.vscode
