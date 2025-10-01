@@ -1,0 +1,17 @@
+[package]
+name = "wattspay_contracts"
+version = "1.0.0"
+authors = []
+
+[addresses]
+wattspay = "_"
+
+[dev-addresses]
+wattspay = "0x5717690cf1cb83d2dd7089c537259307cc4474517b8edae3ef9c3fd5205e1703"
+
+[dependencies.AptosFramework]
+git = "https://github.com/aptos-labs/aptos-framework.git"
+rev = "mainnet"
+subdir = "aptos-framework"
+
+[dev-dependencies]

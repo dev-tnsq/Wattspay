@@ -15,6 +15,10 @@ const envSchema = z.object({
   APTOS_NETWORK: z.enum(['devnet', 'testnet', 'mainnet']).default('devnet'),
   APTOS_NODE_URL: z.string().url(),
   APTOS_FAUCET_URL: z.string().url().optional(),
+  // Deployed Smart Contract Addresses
+  USER_REGISTRY_ADDRESS: z.string().default('0xe81be9d22cc4ead33878d8e9c95e1fabcebae3a9eee70de3eb39c6883573d615'),
+  PAYMENT_COORDINATOR_ADDRESS: z.string().default('0xe81be9d22cc4ead33878d8e9c95e1fabcebae3a9eee70de3eb39c6883573d615'),
+  GROUP_TREASURY_ADDRESS: z.string().default('0xe81be9d22cc4ead33878d8e9c95e1fabcebae3a9eee70de3eb39c6883573d615'),
   ENCRYPTION_SECRET: z.string().min(32, {
     message: 'Provide a strong secret (>=32 characters)',
   }),

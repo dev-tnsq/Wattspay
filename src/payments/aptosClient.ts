@@ -20,3 +20,17 @@ const config = new AptosConfig({
 });
 
 export const aptos = new Aptos(config);
+
+// Smart Contract Addresses
+export const SMART_CONTRACTS = {
+  USER_REGISTRY: env.USER_REGISTRY_ADDRESS,
+  PAYMENT_COORDINATOR: env.PAYMENT_COORDINATOR_ADDRESS,
+  GROUP_TREASURY: env.GROUP_TREASURY_ADDRESS,
+} as const;
+
+// Contract Module Names
+export const CONTRACT_MODULES = {
+  USER_REGISTRY: `${SMART_CONTRACTS.USER_REGISTRY}::user_registry`,
+  PAYMENT_COORDINATOR: `${SMART_CONTRACTS.PAYMENT_COORDINATOR}::payment_coordinator`,
+  GROUP_TREASURY: `${SMART_CONTRACTS.GROUP_TREASURY}::group_treasury`,
+} as const;
