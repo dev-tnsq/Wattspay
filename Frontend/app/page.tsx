@@ -61,10 +61,10 @@ export default function HomePage() {
             </span>
             <h1 className="text-pretty text-4xl font-semibold leading-[1.1] md:text-5xl lg:text-6xl">
               <span className="bg-gradient-to-r from-[#25D366] to-[#1FC65C] bg-clip-text text-transparent">
-                Aptos Blockchain
+                Pay Anyone, Anywhere
               </span>
               <br />
-              💬 Living Inside WhatsApp 
+              Without Leaving WhatsApp 💬
             </h1>
             <p className="text-pretty text-sm leading-relaxed text-white/70 md:text-base">
               {/* The world's first <strong className="text-[#25D366]">Aptos-powered AI agent</strong> that lives natively inside WhatsApp chat.
@@ -72,10 +72,93 @@ export default function HomePage() {
               <br />
               <strong className="text-[#25D366]">Bringing 2 billion WhatsApp users to Aptos.</strong>
               <br />
-              � Send APT • 🍕 Split bills • 🔒 Secure escrows — all through simple text messages.
+              💰 Send APT • 🍕 Split bills • 🔒 Secure escrows — all through simple text messages.
               <br />
               <span className="text-white/90">No apps to download. No wallets to manage. Just pure blockchain magic in your favorite chat.</span>
             </p>
+            <div className="mt-4 rounded-lg border border-[#25D366]/20 bg-[#25D366]/5 p-4 hover:bg-[#25D366]/10 transition-all duration-300">
+              <p className="text-sm text-white/80">
+                <span className="font-medium text-[#25D366]">� Live on Aptos Devnet:</span> Hit up{" "}
+                <span className="relative inline-flex items-center">
+                  <a 
+                    href="https://wa.me/918447676107" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center font-mono font-bold text-white transition-colors pr-2"
+                  >
+                    <span className="relative">
+                      <span className="underline decoration-transparent hover:decoration-transparent">
+                        +91 84476 76107
+                      </span>
+                      {/* Decorative dual arc underline */}
+                      <motion.svg
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true, amount: 0.4 }}
+                        variants={{
+                          hidden: { opacity: 0, y: 6 },
+                          visible: { opacity: 1, y: 0, transition: { delay: 0.05, duration: 0.5, ease: [0.25,0.8,0.4,1] } }
+                        }}
+                        className="pointer-events-none absolute left-1/2 -translate-x-1/2 mx-auto -bottom-6 w-[150%]"
+                        height="40"
+                        aria-hidden
+                      >
+                        <defs>
+                          <linearGradient id="arc-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stopColor="#25D366" />
+                            <stop offset="100%" stopColor="#1FC65C" />
+                          </linearGradient>
+                          <filter id="arc-glow" x="-40%" y="-300%" width="180%" height="600%" colorInterpolationFilters="sRGB">
+                            <feGaussianBlur stdDeviation="4" result="g" />
+                            <feMerge>
+                              <feMergeNode in="g" />
+                              <feMergeNode in="SourceGraphic" />
+                            </feMerge>
+                          </filter>
+                        </defs>
+                        {/* Back faint arc (wider) */}
+                        <motion.path
+                          d="M5 28 Q 95 4 185 28"
+                          stroke="#25D366"
+                          strokeOpacity={0.18}
+                          strokeWidth={6}
+                          strokeLinecap="round"
+                          fill="none"
+                          initial={{ pathLength: 0 }}
+                          animate={{ pathLength: 1 }}
+                          transition={{ duration: 1.1, ease: "easeInOut" }}
+                        />
+                        {/* Foreground bright arc (tighter) */}
+                        <motion.path
+                          d="M15 28 Q 95 10 175 28"
+                          stroke="url(#arc-grad)"
+                          strokeWidth={3.2}
+                          strokeLinecap="round"
+                          fill="none"
+                          filter="url(#arc-glow)"
+                          initial={{ pathLength: 0, opacity: 0 }}
+                          animate={{ pathLength: 1, opacity: 1 }}
+                          transition={{ duration: 1.3, ease: "easeInOut", delay: 0.15 }}
+                        />
+                        {/* Soft pulse highlight */}
+                        <motion.path
+                          d="M15 28 Q 95 10 175 28"
+                          stroke="#25D366"
+                          strokeWidth={9}
+                          strokeLinecap="round"
+                          strokeOpacity={0.05}
+                          fill="none"
+                          initial={{ pathLength: 0, opacity: 0 }}
+                          animate={{ pathLength: [0,1], opacity: [0,0.4,0] }}
+                          transition={{ duration: 1.6, ease: "easeInOut", delay: 0.2 }}
+                        />
+                      </motion.svg>
+                    </span>
+                  </a>
+                </span>
+                {" "}and send your first crypto like it's a meme! 🚀✨
+              </p>
+            </div>
             <div className="flex flex-wrap items-center gap-3 pt-2">
               <a
                 href="#story"
@@ -103,7 +186,6 @@ export default function HomePage() {
                 className="block h-auto w-full"
               />
             </div>
-            <p className="mt-3 text-center text-xs text-white/50">Live 3D scroll story below</p>
           </div>
         </div>
       </section>
